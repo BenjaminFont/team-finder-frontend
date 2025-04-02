@@ -15,6 +15,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["team-finder-frontend/src/*"]
-    }
-  },
-}
+    },
+
+      "module": "esnext",         // ✅ allow import.meta
+      "moduleResolution": "node", // ✅ typical for Vite
+      "target": "esnext",  
+}}

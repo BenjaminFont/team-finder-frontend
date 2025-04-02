@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create an axios instance with base URL and common headers
 const api = axios.create({
-  baseURL: "http://localhost:9000/api", // Match your Spring Boot API base URL
+  baseURL: import.meta.env.VITE_API_BASE_URL, // Match your Spring Boot API base URL
   headers: {
     "Content-Type": "application/json",
   },
@@ -62,7 +62,7 @@ export const teamApi = {
     players: Player[]
   ): Promise<{ team1: Player[]; team2: Player[] }> => {
     const response = await api.post("/teams/shuffle", players);
-    console.log(JSON.stringify(response.data)+ "SHUFFLE!!!!!!!!")
+    console.log(JSON.stringify(response.data) + "SHUFFLE!!!!!!!!");
     return response.data;
   },
 };
