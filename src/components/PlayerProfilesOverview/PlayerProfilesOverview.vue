@@ -22,7 +22,10 @@
         :key="player.id || player.name"
         class="flex-none m-2 md:m-3 w-full sm:w-auto relative"
       >
-        <div v-if="adminStore.isLoggedIn && adminStore.hasRole('ADMIN')" class="edit-button absolute top-2 right-2 z-10">
+        <div
+          v-if="adminStore.isLoggedIn && adminStore.hasRole('ADMIN')"
+          class="edit-button absolute top-2 right-2 z-10"
+        >
           <button
             @click="openEditDialog(player)"
             class="bg-soccer-green text-white p-2 rounded-full hover:bg-opacity-90 transition-all duration-200 shadow-md"
