@@ -16,8 +16,8 @@
     "paths": {
       "@/*": ["team-finder-frontend/src/*"]
     },
-
-      "module": "esnext",         // ✅ allow import.meta
-      "moduleResolution": "node", // ✅ typical for Vite
-      "target": "esnext",  
+    "target": "esnext",             // or at least "es2020"
+    "module": "esnext",             // this is the key one!
+    "moduleResolution": "node",
+    "lib": ["esnext", "dom"],  
 }}

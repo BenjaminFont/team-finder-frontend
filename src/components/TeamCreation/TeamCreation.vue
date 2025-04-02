@@ -10,7 +10,10 @@
             <div :class="getCircleClasses(0)" class="z-10">
               {{ steps[0].value }}
             </div>
-            <p class="mt-2 text-xs sm:text-sm font-medium text-center" :class="getTextClasses(0)">
+            <p
+              class="mt-2 text-xs sm:text-sm font-medium text-center"
+              :class="getTextClasses(0)"
+            >
               {{ steps[0].title }}
             </p>
           </div>
@@ -26,7 +29,10 @@
             <div :class="getCircleClasses(1)" class="z-10">
               {{ steps[1].value }}
             </div>
-            <p class="mt-2 text-xs sm:text-sm font-medium text-center" :class="getTextClasses(1)">
+            <p
+              class="mt-2 text-xs sm:text-sm font-medium text-center"
+              :class="getTextClasses(1)"
+            >
               {{ steps[1].title }}
             </p>
           </div>
@@ -42,7 +48,10 @@
             <div :class="getCircleClasses(2)" class="z-10">
               {{ steps[2].value }}
             </div>
-            <p class="mt-2 text-xs sm:text-sm font-medium text-center" :class="getTextClasses(2)">
+            <p
+              class="mt-2 text-xs sm:text-sm font-medium text-center"
+              :class="getTextClasses(2)"
+            >
               {{ steps[2].title }}
             </p>
           </div>
@@ -131,11 +140,14 @@ let buttonDisabled = ref(false);
 // Function to reset player selection
 function resetPlayerSelection() {
   // Get all players (selected and selectable)
-  const allPlayers = [...playerStore.selectedPlayers, ...playerStore.selectablePlayers];
-  
+  const allPlayers = [
+    ...playerStore.selectedPlayers,
+    ...playerStore.selectablePlayers,
+  ];
+
   // Reset selected players to empty array
   playerStore.setSelectedPlayers([]);
-  
+
   // Set all players back to selectable
   playerStore.setSelectablePlayers(allPlayers);
 }
