@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create an axios instance with base URL and common headers
 const api = axios.create({
-  baseURL: "http://localhost:9000/api", // Match your Spring Boot API base URL
+  baseURL: "https://team-finder-backend-3ffr.onrender.com", //"http://localhost:9000/api", // Match your Spring Boot API base URL
   headers: {
     "Content-Type": "application/json",
   },
