@@ -10,13 +10,19 @@
 
       <form @submit.prevent="handelSubmit" class="p-6">
         <!-- Messages -->
-        <div v-if="successMessage" class="p-2 mb-4 bg-green-50 text-green-700 border border-green-200 rounded">
+        <div
+          v-if="successMessage"
+          class="p-2 mb-4 bg-green-50 text-green-700 border border-green-200 rounded"
+        >
           {{ successMessage }}
         </div>
-        <div v-if="errorMessage" class="p-2 mb-4 bg-red-50 text-red-700 border border-red-200 rounded">
+        <div
+          v-if="errorMessage"
+          class="p-2 mb-4 bg-red-50 text-red-700 border border-red-200 rounded"
+        >
           {{ errorMessage }}
         </div>
-        
+
         <!-- Name field -->
         <div class="mb-6">
           <label class="block text-sm font-medium text-gray-700 mb-2"
@@ -48,7 +54,7 @@
             />
           </div>
         </div>
-        
+
         <!-- Profile Image Section -->
         <div class="mb-8 flex items-start">
           <div class="mr-6 relative">
@@ -341,12 +347,13 @@ const handleFileUpload = async (event: Event) => {
       };
       reader.readAsDataURL(file);
       fileUploaded.value = true;
-      
+
       // We'll upload to S3 only when the form is submitted
       files.value = file;
     } catch (error) {
       console.error("Error preparing file:", error);
-      errorMessage.value = "Fehler beim Vorbereiten der Datei. Bitte versuchen Sie es erneut.";
+      errorMessage.value =
+        "Fehler beim Vorbereiten der Datei. Bitte versuchen Sie es erneut.";
     }
   }
 };
@@ -384,7 +391,7 @@ const handelSubmit = async () => {
 
   errorMessage.value = null;
   isSubmitting.value = true;
-  
+
   try {
     // Upload image to S3 if a file was selected
     let imageUrl = "";
@@ -393,12 +400,13 @@ const handelSubmit = async () => {
         imageUrl = await playerApi.uploadProfileImage(files.value);
       } catch (error) {
         console.error("Error uploading image to S3:", error);
-        errorMessage.value = "Fehler beim Hochladen des Bildes. Bitte versuchen Sie es erneut.";
+        errorMessage.value =
+          "Fehler beim Hochladen des Bildes. Bitte versuchen Sie es erneut.";
         isSubmitting.value = false;
         return;
       }
     }
-    
+
     // Calculate overall rating based on skills (average)
     const skillValues = [
       parseInt(schnelligkeit.value),
@@ -408,11 +416,11 @@ const handelSubmit = async () => {
       parseInt(zweikampf.value),
       parseInt(passen.value),
     ];
-    
+
     const overallRating = Math.round(
       skillValues.reduce((sum, value) => sum + value, 0) / skillValues.length
     );
-    
+
     // Create player object in the format expected by the API
     const player = {
       name: name.value,
@@ -426,23 +434,24 @@ const handelSubmit = async () => {
         { skill: "Schuss", rating: parseInt(schuss.value) },
         { skill: "Zweikampf", rating: parseInt(zweikampf.value) },
         { skill: "Passen", rating: parseInt(passen.value) },
-      ]
+      ],
     };
 
     // Send to API via store
     await playerStore.addPlayer(player);
     successMessage.value = "Spieler erfolgreich hinzugefügt!";
-    
+
     // Reset form after successful submission
     resetForm();
-    
+
     // Redirect after a short delay
     setTimeout(() => {
-      router.push('/players');
+      router.push("/players");
     }, 1500);
   } catch (error) {
     console.error("Error adding player:", error);
-    errorMessage.value = "Fehler beim Hinzufügen des Spielers. Bitte versuchen Sie es erneut.";
+    errorMessage.value =
+      "Fehler beim Hinzufügen des Spielers. Bitte versuchen Sie es erneut.";
   } finally {
     isSubmitting.value = false;
   }

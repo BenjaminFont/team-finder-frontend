@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create an axios instance with base URL and common headers
 const api = axios.create({
-  baseURL: "https://team-finder-backend-3ffr.onrender.com/api", // "http://localhost:9000/api", // Match your Spring Boot API base URL
+  baseURL: "http://localhost:9000/api", // "https://team-finder-backend-3ffr.onrender.com/api", //Match your Spring Boot API base URL
   headers: {
     "Content-Type": "application/json",
   },
@@ -69,6 +69,8 @@ export const playerApi = {
         },
       }
     );
+    console.log(response);
+    console.log(response.data.imageUrl);
 
     return response.data.imageUrl;
   },
