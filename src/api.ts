@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create an axios instance with base URL and common headers
 const api = axios.create({
-  baseURL: "https://team-finder-backend-3ffr.onrender.com/api", //"http://localhost:9000/api", // Match your Spring Boot API base URL
+  baseURL: "http://localhost:9000/api", // "https://team-finder-backend-3ffr.onrender.com/api", // Match your Spring Boot API base URL
   headers: {
     "Content-Type": "application/json",
   },
@@ -53,6 +53,25 @@ export const playerApi = {
   deletePlayer: async (id: number): Promise<void> => {
     await api.delete(`/players/${id}`);
   },
+
+  // Upload player profile image to S3
+  uploadProfileImage: async (file: File): Promise<string> => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    // Create a custom instance for this request to avoid Content-Type: application/json
+    const response = await axios.post(
+      `${api.defaults.baseURL}/players/upload-image`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    return response.data.imageUrl;
+  },
 };
 
 // Team API endpoints
@@ -62,7 +81,6 @@ export const teamApi = {
     players: Player[]
   ): Promise<{ team1: Player[]; team2: Player[] }> => {
     const response = await api.post("/teams/shuffle", players);
-    console.log(JSON.stringify(response.data) + "SHUFFLE!!!!!!!!");
     return response.data;
   },
 };

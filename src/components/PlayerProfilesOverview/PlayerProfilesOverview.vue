@@ -107,6 +107,82 @@
               required
             />
           </div>
+          
+          <!-- Profile Image Section -->
+          <div class="mb-8 flex items-start">
+            <div class="mr-6 relative">
+              <div
+                class="w-24 h-24 rounded-full border-4 border-gray-200 overflow-hidden bg-gray-100 flex items-center justify-center"
+              >
+                <img
+                  v-if="imagePreview || editingPlayer.imgSrc"
+                  :src="imagePreview || editingPlayer.imgSrc"
+                  alt="Spieler Foto"
+                  class="w-full h-full object-cover"
+                />
+                <span v-else class="text-6xl text-gray-300">👤</span>
+              </div>
+            </div>
+
+            <div class="flex-1">
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                {{
+                  imageSelected ? "Profilbild hochgeladen" : "Profilbild hochladen"
+                }}
+              </label>
+              <div class="flex space-x-3">
+                <label
+                  for="editImage"
+                  class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200 transition duration-200 flex items-center justify-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 mr-1"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  {{ editingPlayer.imgSrc || imagePreview ? "Ändern" : "Hochladen" }}
+                </label>
+                <input
+                  type="file"
+                  id="editImage"
+                  @change="handleEditImageUpload"
+                  accept="image/png, image/jpeg, image/bmp"
+                  class="hidden"
+                />
+
+                <button
+                  v-if="editingPlayer.imgSrc || imagePreview"
+                  type="button"
+                  @click="handleDeleteEditImage"
+                  class="px-4 py-2 bg-red-50 text-red-600 rounded-md hover:bg-red-100 transition duration-200 flex items-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 mr-1"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  Löschen
+                </button>
+              </div>
+              <p class="mt-2 text-xs text-gray-500">
+                Unterstützte Formate: PNG, JPEG, BMP. Maximal 5MB.
+              </p>
+            </div>
+          </div>
 
           <!-- Contact Information -->
           <div class="mb-6">
@@ -181,7 +257,7 @@ import { ref, onMounted } from "vue";
 import PlayerProfile from "../PlayerProfile/PlayerProfile.vue";
 import { usePlayerStore } from "../../stores/player";
 import { useAdminStore } from "../../stores/admin";
-import type { Player } from "../../api";
+import { playerApi, type Player } from "../../api";
 
 const playerStore = usePlayerStore();
 const adminStore = useAdminStore();
@@ -197,6 +273,9 @@ const editingPlayer = ref<Player | null>(null);
 const updating = ref(false);
 const updateSuccess = ref<string | null>(null);
 const updateError = ref<string | null>(null);
+const imagePreview = ref<string | null>(null);
+const imageSelected = ref(false);
+const imageFile = ref<File | null>(null);
 
 // Fetch players on component mount
 onMounted(async () => {
@@ -222,6 +301,36 @@ const openEditDialog = (player: Player) => {
   showEditDialog.value = true;
   updateError.value = null;
   updateSuccess.value = null;
+  imagePreview.value = null;
+  imageSelected.value = false;
+  imageFile.value = null;
+};
+
+// Handle image upload in edit dialog
+const handleEditImageUpload = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0];
+  if (file) {
+    // Show preview
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      imagePreview.value = e.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+    imageSelected.value = true;
+    imageFile.value = file;
+  }
+};
+
+// Handle delete image in edit dialog
+const handleDeleteEditImage = () => {
+  imagePreview.value = null;
+  imageSelected.value = false;
+  imageFile.value = null;
+  
+  if (editingPlayer.value) {
+    editingPlayer.value.imgSrc = ""; // Clear the existing image URL
+  }
 };
 
 // Calculate overall rating based on skills
@@ -247,6 +356,19 @@ const handleUpdate = async () => {
   updateSuccess.value = null;
 
   try {
+    // Upload new image to S3 if selected
+    if (imageFile.value) {
+      try {
+        const imageUrl = await playerApi.uploadProfileImage(imageFile.value);
+        editingPlayer.value.imgSrc = imageUrl;
+      } catch (error) {
+        console.error("Error uploading image to S3:", error);
+        updateError.value = "Fehler beim Hochladen des Bildes. Bitte versuchen Sie es erneut.";
+        updating.value = false;
+        return;
+      }
+    }
+    
     // Update the overall rating based on skills
     editingPlayer.value.rating = calculateOverallRating(
       editingPlayer.value.skills
@@ -265,6 +387,11 @@ const handleUpdate = async () => {
     }
 
     updateSuccess.value = "Spieler erfolgreich aktualisiert!";
+
+    // Reset image state
+    imagePreview.value = null;
+    imageSelected.value = false;
+    imageFile.value = null;
 
     // Close dialog after a short delay
     setTimeout(() => {

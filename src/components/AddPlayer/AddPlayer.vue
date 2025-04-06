@@ -307,13 +307,14 @@
 import { ref } from "vue";
 import { usePlayerStore } from "../../stores/player";
 import { useRouter } from "vue-router";
+import { playerApi } from "../../api";
 
 const playerStore = usePlayerStore();
 const router = useRouter();
 
 // Form state
 const name = ref("");
-const files = ref(null);
+const files = ref<File | null>(null);
 const handynummer = ref("");
 const schnelligkeit = ref("3");
 const dribbling = ref("3");
@@ -328,16 +329,25 @@ let isSubmitting = ref(false);
 let errorMessage = ref<string | null>(null);
 let successMessage = ref<string | null>(null);
 
-const handleFileUpload = (event: Event) => {
+const handleFileUpload = async (event: Event) => {
   const target = event.target as HTMLInputElement;
   const file = target.files?.[0];
   if (file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      fileData.value = e.target?.result as string;
-    };
-    reader.readAsDataURL(file);
-    fileUploaded.value = true;
+    try {
+      // Still show a preview of the image
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        fileData.value = e.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+      fileUploaded.value = true;
+      
+      // We'll upload to S3 only when the form is submitted
+      files.value = file;
+    } catch (error) {
+      console.error("Error preparing file:", error);
+      errorMessage.value = "Fehler beim Vorbereiten der Datei. Bitte versuchen Sie es erneut.";
+    }
   }
 };
 
@@ -375,37 +385,50 @@ const handelSubmit = async () => {
   errorMessage.value = null;
   isSubmitting.value = true;
   
-  // Calculate overall rating based on skills (average)
-  const skillValues = [
-    parseInt(schnelligkeit.value),
-    parseInt(dribbling.value),
-    parseInt(ausdauer.value),
-    parseInt(schuss.value),
-    parseInt(zweikampf.value),
-    parseInt(passen.value),
-  ];
-  
-  const overallRating = Math.round(
-    skillValues.reduce((sum, value) => sum + value, 0) / skillValues.length
-  );
-  
-  // Create player object in the format expected by the API
-  const player = {
-    name: name.value,
-    rating: overallRating,
-    handynummer: handynummer.value,
-    imgSrc: fileData.value || "",
-    skills: [
-      { skill: "Schnelligkeit", rating: parseInt(schnelligkeit.value) },
-      { skill: "Dribbling", rating: parseInt(dribbling.value) },
-      { skill: "Ausdauer", rating: parseInt(ausdauer.value) },
-      { skill: "Schuss", rating: parseInt(schuss.value) },
-      { skill: "Zweikampf", rating: parseInt(zweikampf.value) },
-      { skill: "Passen", rating: parseInt(passen.value) },
-    ]
-  };
-
   try {
+    // Upload image to S3 if a file was selected
+    let imageUrl = "";
+    if (files.value) {
+      try {
+        imageUrl = await playerApi.uploadProfileImage(files.value);
+      } catch (error) {
+        console.error("Error uploading image to S3:", error);
+        errorMessage.value = "Fehler beim Hochladen des Bildes. Bitte versuchen Sie es erneut.";
+        isSubmitting.value = false;
+        return;
+      }
+    }
+    
+    // Calculate overall rating based on skills (average)
+    const skillValues = [
+      parseInt(schnelligkeit.value),
+      parseInt(dribbling.value),
+      parseInt(ausdauer.value),
+      parseInt(schuss.value),
+      parseInt(zweikampf.value),
+      parseInt(passen.value),
+    ];
+    
+    const overallRating = Math.round(
+      skillValues.reduce((sum, value) => sum + value, 0) / skillValues.length
+    );
+    
+    // Create player object in the format expected by the API
+    const player = {
+      name: name.value,
+      rating: overallRating,
+      handynummer: handynummer.value,
+      imgSrc: imageUrl || "", // Use the S3 URL
+      skills: [
+        { skill: "Schnelligkeit", rating: parseInt(schnelligkeit.value) },
+        { skill: "Dribbling", rating: parseInt(dribbling.value) },
+        { skill: "Ausdauer", rating: parseInt(ausdauer.value) },
+        { skill: "Schuss", rating: parseInt(schuss.value) },
+        { skill: "Zweikampf", rating: parseInt(zweikampf.value) },
+        { skill: "Passen", rating: parseInt(passen.value) },
+      ]
+    };
+
     // Send to API via store
     await playerStore.addPlayer(player);
     successMessage.value = "Spieler erfolgreich hinzugefügt!";

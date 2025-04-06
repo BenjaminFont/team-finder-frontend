@@ -6,7 +6,7 @@
       <div class="h-24 w-24 mr-4 flex-shrink-0">
         <img
           :src="
-            props.player.imgSrc || 'https://cdn.vuetifyjs.com/images/john.jpg'
+            props.player.imgSrc || '/user.png'
           "
           :alt="props.player.name"
           class="h-full w-full object-cover rounded-full border-2 border-soccer-green shadow-md"

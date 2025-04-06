@@ -9,7 +9,7 @@
       >
         <img
           :src="
-            props.player.imgSrc || 'https://cdn.vuetifyjs.com/images/john.jpg'
+            props.player.imgSrc || '/user.png'
           "
           :alt="props.player.name"
           class="w-full h-full object-cover"

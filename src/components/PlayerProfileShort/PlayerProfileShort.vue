@@ -14,7 +14,7 @@
           <img
             :src="
               props.player?.imgSrc ||
-              'https://cdn.vuetifyjs.com/images/john.jpg'
+              '/user.png'
             "
             :alt="props.player?.name || 'Player'"
             class="h-full w-full object-cover"

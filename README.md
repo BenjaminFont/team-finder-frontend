@@ -20,6 +20,7 @@ Team Finder is a full-stack application designed to help organize soccer/footbal
 - TypeScript 4.7.4
 - Vitest 0.25.3 (Testing)
 - Axios (API Requests)
+- AWS S3 Integration (for profile image storage)
 - Responsive Design
   - Mobile-first approach
   - Adaptive layouts
@@ -92,6 +93,13 @@ The frontend communicates with the Spring Boot backend using Axios:
   - Auth: User authentication with JWT
   - Players: CRUD operations for player management (some require authentication)
   - Teams: Endpoints for team creation and management
+  - Image Upload: S3 integration for storing player profile images
+
+#### S3 Image Integration
+- Player profile images are uploaded through the backend
+- The frontend sends the image file to a dedicated endpoint
+- The backend uploads the image to S3 and returns the URL
+- The image URL is stored with the player profile
 
 ## Data Model
 
