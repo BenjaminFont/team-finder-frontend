@@ -21,7 +21,7 @@
             Rating: {{ props.player.rating }}
           </span>
         </div>
-        <p class="text-sm text-gray-600 mt-2" v-if="props.player.handynummer">
+        <p class="text-sm text-gray-600 mt-2" v-if="adminStore.isLoggedIn && adminStore.hasRole('ADMIN') && props.player.handynummer">
           <span class="font-medium">Tel:</span>
           {{ formatPhone(props.player.handynummer) }}
         </p>
@@ -78,6 +78,9 @@
 
 <script setup lang="ts">
 import type { Player } from "../../api";
+import { useAdminStore } from "../../stores/admin";
+const adminStore = useAdminStore();
+
 
 // const player = defineProps({
 //   name: { type: String, required: true },

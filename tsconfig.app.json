@@ -1,1 +1,6 @@
-{}
+{
+  "compilerOptions": {
+    "module": "esnext", // ✅ Must match your root config
+    "target": "esnext"
+  }
+}
