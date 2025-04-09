@@ -14,10 +14,14 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["team-finder-frontend/src/*"]
+      "@/*": ["./src/*"]
     },
-    "target": "esnext",             // or at least "es2020"
-    "module": "esnext",             // this is the key one!
+    "types": ["node", "vite/client"],
+    "target": "esnext",
+    "module": "esnext",
     "moduleResolution": "node",
-    "lib": ["esnext", "dom"],  
-}}
+    "lib": ["esnext", "dom"],
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}

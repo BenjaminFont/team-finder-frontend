@@ -1,6 +1,10 @@
 {
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "esnext", // ✅ Must match your root config
+    "composite": true,
+    "module": "esnext",
     "target": "esnext"
-  }
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "exclude": ["node_modules"]
 }

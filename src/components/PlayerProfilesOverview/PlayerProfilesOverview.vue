@@ -54,7 +54,7 @@
       <p class="text-gray-600 mb-4">Keine Spieler gefunden</p>
       <button
         v-if="adminStore.isLoggedIn && adminStore.hasRole('ADMIN')"
-        @click="$router.push('/addPlayer')"
+        @click="router.push('/addPlayer')"
         class="px-4 py-2 bg-soccer-green text-white rounded hover:bg-opacity-90"
       >
         Spieler hinzufügen
@@ -254,13 +254,15 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import PlayerProfile from "../PlayerProfile/PlayerProfile.vue";
+import PlayerProfile from "@/components/PlayerProfile/PlayerProfile.vue";
 import { usePlayerStore } from "../../stores/player";
 import { useAdminStore } from "../../stores/admin";
+import { useRouter } from "vue-router";
 import { playerApi, type Player } from "../../api";
 
 const playerStore = usePlayerStore();
 const adminStore = useAdminStore();
+const router = useRouter();
 
 // Component state
 const loading = ref(false);

@@ -56,7 +56,6 @@
 
 <script setup lang="ts">
 import type { Player } from "../../api";
-import { computed } from "vue";
 
 const props = defineProps<{
   player: Player;

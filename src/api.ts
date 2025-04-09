@@ -1,9 +1,13 @@
 import axios from "axios";
 
+// Get API base URL from environment variable or fallback to default
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? "https://team-finder-backend-3ffr.onrender.com/api"
+  : "http://localhost:9000/api";
+
 // Create an axios instance with base URL and common headers
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
-  //"https://team-finder-backend-3ffr.onrender.com/api", // "http://localhost:9000/api", //Match your Spring Boot API base URL
+  baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
