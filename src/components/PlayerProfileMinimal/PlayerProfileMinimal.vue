@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white shadow-md rounded-lg cursor-pointer w-full sm:w-36 md:w-44 h-20 transform transition-all duration-200 hover:shadow-lg hover:scale-105 border-l-4 border-soccer-green"
+    class="bg-white shadow-md rounded-lg cursor-pointer w-full sm:w-42 md:w-49 h-20 transform transition-all duration-200 hover:shadow-lg hover:scale-105 border-l-4 border-soccer-green"
     @click="handleClick"
   >
     <div class="flex items-center h-full px-2">
@@ -21,7 +21,7 @@
         </div>
         <div class="flex items-center mt-1 space-x-1">
           <div class="flex items-center bg-gray-100 rounded-md px-1.5 py-0.5">
-            <span class="text-xs font-medium text-gray-700">Rating:</span>
+            <span class="text-xs font-medium text-gray-700 hidden sm:inline">Rating:</span>
             <span class="ml-1 text-sm font-semibold text-soccer-green">{{
               props.player.rating
             }}</span>

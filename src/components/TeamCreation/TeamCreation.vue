@@ -64,7 +64,7 @@
       <!-- Step Content -->
       <div
         v-if="currentStep == 0"
-        class="bg-white p-6 rounded-lg shadow-md animate-fadeIn"
+        class="sm:bg-white sm:p-6 sm:rounded-lg sm:shadow-md animate-fadeIn}"
       >
         <team-question
           @teamSizeOk="enableButton"

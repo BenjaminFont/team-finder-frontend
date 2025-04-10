@@ -10,11 +10,11 @@
       </div>
     </div>
     <div class="h-60 overflow-y-auto">
-      <ol class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
+      <ol class="grid grid-cols-1 max-sm:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
         <li
           v-for="player in selectablePlayers"
           :key="player.name"
-          class="flex justify-center my-2 mx-1 h-fit"
+          class="flex justify-center my-2 mx-1 h-fit max-sm:w-full sm:w-full"
         >
           <player-profile-minimal
             :player="player"
@@ -30,11 +30,11 @@
       <div class="text-ms font-sans text-gray-600 font-medium">Auswahl:</div>
     </div>
     <div class="h-60 overflow-y-auto">
-      <ol class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
+      <ol class="grid grid-cols-1 max-sm:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
         <li
           v-for="player in selectedPlayers"
           :key="player.name"
-          class="flex justify-center my-2 mx-1 h-fit"
+          class="flex justify-center my-2 mx-1 h-fit max-sm:w-full sm:w-full"
         >
           <player-profile-minimal
             :player="player"

@@ -3,7 +3,7 @@
     <form
       @submit.prevent="handleClick"
       class="m-4 border border-gray-300 p-4 rounded-md w-96"
-      :class="{ 'h-60': ruleViolation, 'h-56': !ruleViolation }"
+      :class="{ 'h-76': ruleViolation, 'h-66': !ruleViolation }"
     >
       <div class="flex items-start flex-col">
         <div class="mb-5 text-lg">
