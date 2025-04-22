@@ -52,7 +52,7 @@ router.beforeEach((to, from, next) => {
     const adminStore = useAdminStore();
     
     // If not logged in or not an admin, redirect to the player profiles page
-    if (!adminStore.isLoggedIn || !adminStore.hasRole('ADMIN')) {
+    if (!adminStore.isLoggedIn || !adminStore.hasRole('SYSTEM_ADMIN')) {
       next({ path: '/playerProfiles' });
     } else {
       next(); // Admin is logged in, proceed

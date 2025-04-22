@@ -29,7 +29,7 @@
 
         <!-- Add Player - Only visible for admins -->
         <router-link
-          v-if="adminStore.isLoggedIn && adminStore.hasRole('ADMIN')"
+          v-if="adminStore.isLoggedIn && adminStore.hasRole('SYSTEM_ADMIN')"
           to="/addPlayer"
           class="flex flex-col items-center text-xs font-medium text-gray-600 hover:text-soccer-green transition-colors"
           :class="{'text-soccer-green': isActivePath('/addPlayer')}"

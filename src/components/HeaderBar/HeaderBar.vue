@@ -15,7 +15,7 @@
           <span class="mr-1">👥</span> Spieler Profile
         </router-link>
         <router-link 
-          v-if="adminStore.isLoggedIn && adminStore.hasRole('ADMIN')"
+          v-if="adminStore.isLoggedIn && adminStore.hasRole('SYSTEM_ADMIN')"
           class="ml-4 text-white hover:text-gray-200 transition duration-200 text-sm font-medium flex items-center"
           to="/addPlayer"
         >
@@ -89,7 +89,7 @@
         </router-link>
         
         <router-link 
-          v-if="adminStore.isLoggedIn && adminStore.hasRole('ADMIN')"
+          v-if="adminStore.isLoggedIn && adminStore.hasRole('SYSTEM_ADMIN')"
           @click="mobileMenuOpen = false"
           to="/addPlayer"
           class="block text-white hover:text-gray-300 font-medium py-2"

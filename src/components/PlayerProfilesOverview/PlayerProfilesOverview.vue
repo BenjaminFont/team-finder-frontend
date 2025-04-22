@@ -23,7 +23,7 @@
         class="flex-none m-2 md:m-3 w-full sm:w-auto relative"
       >
         <div
-          v-if="adminStore.isLoggedIn && adminStore.hasRole('ADMIN')"
+          v-if="adminStore.isLoggedIn && adminStore.hasRole('SYSTEM_ADMIN')"
           class="edit-button absolute top-2 right-2 z-10"
         >
           <button
@@ -53,7 +53,7 @@
     >
       <p class="text-gray-600 mb-4">Keine Spieler gefunden</p>
       <button
-        v-if="adminStore.isLoggedIn && adminStore.hasRole('ADMIN')"
+        v-if="adminStore.isLoggedIn && adminStore.hasRole('SYSTEM_ADMIN')"
         @click="router.push('/addPlayer')"
         class="px-4 py-2 bg-soccer-green text-white rounded hover:bg-opacity-90"
       >
