@@ -119,14 +119,21 @@ export const usePlayerStore = defineStore("players", () => {
   }
 
   // Get teams (now will use backend API for shuffling)
-  async function getTeams() {
+  async function getTeams(numTeams = 2) {
+    console.log(numTeams);
     if (selectedPlayers.value.length === 0) {
-      return { team1: [], team2: [] };
+      // Create empty teams based on numTeams
+      const teams: Record<string, Player[]> = {};
+      for (let i = 1; i <= numTeams; i++) {
+        teams[`team${i}`] = [];
+      }
+      return teams;
     }
 
     try {
       // If we're connected to backend, use its team shuffling
-      const teams = await teamApi.shuffleTeams(selectedPlayers.value);
+      const teams = await teamApi.shuffleTeams(selectedPlayers.value, numTeams);
+      console.log(JSON.stringify(teams))
       return teams;
     } catch (err) {
       console.error(
@@ -134,12 +141,21 @@ export const usePlayerStore = defineStore("players", () => {
         err
       );
       // Fallback to local implementation if API fails
-      const team1 = selectedPlayers.value.filter((_, index) => index % 2 === 0);
-      const team2 = selectedPlayers.value.filter((_, index) => index % 2 !== 0);
-      return {
-        team1: team1,
-        team2: team2,
-      };
+      const teams: Record<string, Player[]> = {};
+      
+      // Distribute players evenly among teams
+      for (let i = 0; i < selectedPlayers.value.length; i++) {
+        const teamIndex = (i % numTeams) + 1;
+        const teamKey = `team${teamIndex}`;
+        
+        if (!teams[teamKey]) {
+          teams[teamKey] = [];
+        }
+        
+        teams[teamKey].push(selectedPlayers.value[i]);
+      }
+      
+      return teams;
     }
   }
 

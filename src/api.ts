@@ -85,9 +85,10 @@ export const playerApi = {
 export const teamApi = {
   // Shuffle and create balanced teams from selected players
   shuffleTeams: async (
-    players: Player[]
-  ): Promise<{ team1: Player[]; team2: Player[] }> => {
-    const response = await api.post("/teams/shuffle", players);
+    players: Player[],
+    numTeams: number = 2
+  ): Promise<Record<string, Player[]>> => {
+    const response = await api.post(`/teams/shuffle?numTeams=${numTeams}`, players);
     return response.data;
   },
 };
