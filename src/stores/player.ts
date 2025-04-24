@@ -11,6 +11,8 @@ export const usePlayerStore = defineStore("players", () => {
     skills: Skill[]; // renamed from items
     handynummer: string;
     imgSrc?: string;
+    groupId: number;
+    userId: number;
 
     constructor(
       name: string,
