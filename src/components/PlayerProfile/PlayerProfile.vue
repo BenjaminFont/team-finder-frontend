@@ -21,7 +21,7 @@
             Rating: {{ props.player.rating }}
           </span>
         </div>
-        <p class="text-sm text-gray-600 mt-2" v-if="adminStore.isLoggedIn && adminStore.hasRole('ADMIN') && props.player.handynummer">
+        <p class="text-sm text-gray-600 mt-2" v-if="adminStore.isLoggedIn && adminStore.hasRole('SYSTEM_ADMIN') && props.player.handynummer">
           <span class="font-medium">Tel:</span>
           {{ formatPhone(props.player.handynummer) }}
         </p>
