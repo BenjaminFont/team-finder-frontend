@@ -370,12 +370,14 @@ const handleUpdate = async () => {
         return;
       }
     }
-    
     // Update the overall rating based on skills
     editingPlayer.value.rating = calculateOverallRating(
       editingPlayer.value.skills
     );
 
+    //TODO Change to User Group the player belongs
+    editingPlayer.value.groupId = 1
+    editingPlayer.value.userId = 1
     // Call the API to update the player
     const updatedPlayer = await playerStore.updatePlayer(
       editingPlayer.value.id,

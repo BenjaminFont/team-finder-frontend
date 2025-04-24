@@ -314,7 +314,7 @@ import { ref } from "vue";
 import { usePlayerStore } from "../../stores/player";
 import { useRouter } from "vue-router";
 import { playerApi } from "../../api";
-
+import { Player } from "../../api";
 const playerStore = usePlayerStore();
 const router = useRouter();
 
@@ -422,7 +422,8 @@ const handelSubmit = async () => {
     );
 
     // Create player object in the format expected by the API
-    const player = {
+
+    const player : Player = {
       name: name.value,
       rating: overallRating,
       handynummer: handynummer.value,
@@ -435,6 +436,8 @@ const handelSubmit = async () => {
         { skill: "Zweikampf", rating: parseInt(zweikampf.value) },
         { skill: "Passen", rating: parseInt(passen.value) },
       ],
+      groupId: 1,
+      userId: 1,
     };
 
     // Send to API via store

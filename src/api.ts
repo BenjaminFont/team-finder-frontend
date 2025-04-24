@@ -19,13 +19,17 @@ export interface Skill {
   rating: number;
 }
 
+
 export interface Player {
   id?: number;
   name: string;
-  rating: number; // overall rating
-  skills: Skill[]; // individual skills (renamed from items)
+  rating: number;
+  skills: Skill[];
   handynummer: string;
   imgSrc?: string;
+  groupId: number;
+  userId: number;
+
 }
 
 // Player API endpoints
