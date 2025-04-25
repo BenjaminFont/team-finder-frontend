@@ -127,7 +127,6 @@ export const usePlayerStore = defineStore("players", () => {
 
   // Get teams (now will use backend API for shuffling)
   async function getTeams(numTeams = 2) {
-    console.log(numTeams);
     if (selectedPlayers.value.length === 0) {
       // Create empty teams based on numTeams
       const teams: Record<string, Player[]> = {};
@@ -140,7 +139,6 @@ export const usePlayerStore = defineStore("players", () => {
     try {
       // If we're connected to backend, use its team shuffling
       const teams = await teamApi.shuffleTeams(selectedPlayers.value, numTeams);
-      console.log(JSON.stringify(teams))
       return teams;
     } catch (err) {
       console.error(

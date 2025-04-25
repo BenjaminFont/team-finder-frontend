@@ -34,12 +34,6 @@
       <!-- VS Divider (except after last team) -->
       <div class="my-6" v-if="index < Object.keys(teams).length - 1">
         <div class="bg-gray-100 bg-opacity-80 py-2 shadow-sm rounded-md">
-          <div
-            class="text-4xl font-sans text-black font-medium text-center"
-            style="text-shadow: 1px 2px 3px gray"
-          >
-            VS
-          </div>
         </div>
       </div>
     </div>
