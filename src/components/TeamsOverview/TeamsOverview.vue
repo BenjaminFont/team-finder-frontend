@@ -60,7 +60,8 @@ import { onMounted, ref, reactive } from "vue";
 import { usePlayerStore } from "../../stores/player";
 import { useRouter } from "vue-router";
 import { teamApi } from "../../api";
-import type { Player } from "../../api";
+
+import {Player} from "@/types";
 
 const playerStore = usePlayerStore();
 const router = useRouter();

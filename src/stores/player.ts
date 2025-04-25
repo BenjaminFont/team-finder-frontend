@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref, onMounted } from "vue";
-import { playerApi, teamApi, Player, Skill } from "../api";
+import { playerApi, teamApi } from "../api";
+import {Player, Skill} from "../types";
 
 export const usePlayerStore = defineStore("players", () => {
   // Define Player class that matches the API interface
@@ -19,13 +20,17 @@ export const usePlayerStore = defineStore("players", () => {
       rating: number,
       skills: Skill[], // renamed from items
       handynummer: string,
-      imgSrc: string = ""
+      imgSrc: string = "",
+      groupId: number,
+    userId: number
     ) {
       this.name = name;
       this.rating = rating;
       this.skills = skills; // renamed from items
       this.handynummer = handynummer;
       this.imgSrc = imgSrc;
+      this.groupId = groupId;
+      this.userId = userId;
     }
   }
 

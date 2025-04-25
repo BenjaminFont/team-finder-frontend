@@ -55,7 +55,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Player } from "../../api";
+
+import {Player} from "@/types";
 
 const props = defineProps<{
   player: Player;

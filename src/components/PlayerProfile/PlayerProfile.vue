@@ -77,8 +77,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Player } from "../../api";
 import { useAdminStore } from "../../stores/admin";
+import {Player} from "@/types";
 const adminStore = useAdminStore();
 
 

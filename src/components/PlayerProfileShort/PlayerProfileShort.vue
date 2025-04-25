@@ -57,8 +57,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Player, Skill } from "../../api";
 import { computed, ref } from "vue";
+import {Player, Skill} from "@/types";
 
 const props = defineProps<{
   player: Player;

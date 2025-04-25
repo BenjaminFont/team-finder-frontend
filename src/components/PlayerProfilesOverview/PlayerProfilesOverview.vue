@@ -258,7 +258,8 @@ import PlayerProfile from "@/components/PlayerProfile/PlayerProfile.vue";
 import { usePlayerStore } from "../../stores/player";
 import { useAdminStore } from "../../stores/admin";
 import { useRouter } from "vue-router";
-import { playerApi, type Player } from "../../api";
+import { playerApi } from "../../api";
+import {Player} from "@/types";
 
 const playerStore = usePlayerStore();
 const adminStore = useAdminStore();

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Player } from "./types";
 
 // Get API base URL from environment variable or fallback to default
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
@@ -13,24 +14,6 @@ const api = axios.create({
   },
 });
 
-// Types based on backend models
-export interface Skill {
-  skill: string;
-  rating: number;
-}
-
-
-export interface Player {
-  id?: number;
-  name: string;
-  rating: number;
-  skills: Skill[];
-  handynummer: string;
-  imgSrc?: string;
-  groupId: number;
-  userId: number;
-
-}
 
 // Player API endpoints
 export const playerApi = {

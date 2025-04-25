@@ -314,7 +314,8 @@ import { ref } from "vue";
 import { usePlayerStore } from "../../stores/player";
 import { useRouter } from "vue-router";
 import { playerApi } from "../../api";
-import { Player } from "../../api";
+
+import {Player} from "@/types";
 const playerStore = usePlayerStore();
 const router = useRouter();
 
